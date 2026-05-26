@@ -1,0 +1,232 @@
+import { defineChain, isAddress, type Address } from "viem";
+
+const publicXLayerRpcUrl = "https://testrpc.xlayer.tech/terigon";
+const xLayerRpcUrl =
+  typeof window === "undefined"
+    ? process.env.XLAYER_RPC_URL ??
+      process.env.NEXT_PUBLIC_XLAYER_RPC_URL ??
+      publicXLayerRpcUrl
+    : process.env.NEXT_PUBLIC_XLAYER_RPC_URL ?? publicXLayerRpcUrl;
+
+export const xLayerTestnet = defineChain({
+  id: readChainId(),
+  name: "X Layer Testnet",
+  nativeCurrency: {
+    name: "OKB",
+    symbol: "OKB",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: [xLayerRpcUrl],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "OKX Explorer",
+      url: "https://www.okx.com/web3/explorer/xlayer-test",
+    },
+  },
+});
+
+/**
+ * Compatibility alias retained so copied wallet/import boundaries can move to
+ * X Layer without a broad rename in this pass.
+ */
+export const xLayerChain = xLayerTestnet;
+
+export const signalBondAddress =
+  readAddress(process.env.NEXT_PUBLIC_PITCHSIDE_SIGNALS_ADDRESS) ??
+  readAddress(process.env.NEXT_PUBLIC_SIGNALBOND_ADDRESS);
+
+/**
+ * PitchSide uses an ERC20 stake token for demo publishing. Deploy scripts can
+ * point this at a simple test token on X Layer testnet; without it the app runs
+ * in seed mode and still demos the market/reputation workflow.
+ */
+export const usdcAddress: Address | undefined =
+  readAddress(process.env.NEXT_PUBLIC_STAKE_TOKEN_ADDRESS) ??
+  readAddress(process.env.NEXT_PUBLIC_USDC_ADDRESS) ??
+  readAddress(process.env.NEXT_PUBLIC_DEMO_USDC_ADDRESS);
+
+/** Legacy alias retained so existing imports keep working during the swap. */
+export const demoUsdcAddress = usdcAddress;
+export const contractsConfigured = Boolean(signalBondAddress && usdcAddress);
+
+export const faucetUrl = "https://www.okx.com/web3/faucet";
+
+export const signalBondAbi = [
+  {
+    type: "function",
+    name: "owner",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
+    name: "resolver",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
+    name: "treasury",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
+    name: "slashedStakeBalance",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "nextSignalId",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "createSignal",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "agentId", type: "bytes32" },
+      { name: "market", type: "string" },
+      { name: "direction", type: "uint8" },
+      { name: "confidenceBps", type: "uint16" },
+      { name: "stakeAmount", type: "uint256" },
+      { name: "expiresAt", type: "uint64" },
+      { name: "entryPriceE8", type: "uint256" },
+      { name: "targetPriceE8", type: "uint256" },
+      { name: "sourceDataHash", type: "bytes32" },
+      { name: "explanationHash", type: "bytes32" },
+    ],
+    outputs: [{ name: "signalId", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "resolveSignal",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "signalId", type: "uint256" },
+      { name: "correct", type: "bool" },
+      { name: "pnlBps", type: "int256" },
+    ],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "setTreasury",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "treasury_", type: "address" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "withdrawSlashedStake",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "amount", type: "uint256" }],
+    outputs: [],
+  },
+  {
+    type: "function",
+    name: "getSignal",
+    stateMutability: "view",
+    inputs: [{ name: "signalId", type: "uint256" }],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        components: [
+          { name: "id", type: "uint256" },
+          { name: "agentId", type: "bytes32" },
+          { name: "publisher", type: "address" },
+          { name: "direction", type: "uint8" },
+          { name: "market", type: "string" },
+          { name: "confidenceBps", type: "uint16" },
+          { name: "createdAt", type: "uint64" },
+          { name: "expiresAt", type: "uint64" },
+          { name: "stakeAmount", type: "uint256" },
+          { name: "entryPriceE8", type: "uint256" },
+          { name: "targetPriceE8", type: "uint256" },
+          { name: "sourceDataHash", type: "bytes32" },
+          { name: "explanationHash", type: "bytes32" },
+          { name: "resolved", type: "bool" },
+          { name: "correct", type: "bool" },
+          { name: "pnlBps", type: "int256" },
+        ],
+      },
+    ],
+  },
+  {
+    type: "function",
+    name: "getScore",
+    stateMutability: "view",
+    inputs: [{ name: "agentId", type: "bytes32" }],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        components: [
+          { name: "resolvedSignals", type: "uint256" },
+          { name: "correctSignals", type: "uint256" },
+          { name: "reputation", type: "int256" },
+          { name: "cumulativePnLBps", type: "int256" },
+          { name: "updatedAt", type: "uint64" },
+        ],
+      },
+    ],
+  },
+] as const;
+
+export const erc20Abi = [
+  {
+    type: "function",
+    name: "approve",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "spender", type: "address" },
+      { name: "amount", type: "uint256" },
+    ],
+    outputs: [{ name: "", type: "bool" }],
+  },
+  {
+    type: "function",
+    name: "allowance",
+    stateMutability: "view",
+    inputs: [
+      { name: "owner", type: "address" },
+      { name: "spender", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "balanceOf",
+    stateMutability: "view",
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+] as const;
+
+function readAddress(value: string | undefined): Address | undefined {
+  return value && isAddress(value) ? value : undefined;
+}
+
+function readChainId(): number {
+  const fromEnv =
+    process.env.NEXT_PUBLIC_XLAYER_CHAIN_ID ?? process.env.NEXT_PUBLIC_ARC_CHAIN_ID;
+  if (fromEnv !== undefined) {
+    const parsed = Number(fromEnv);
+    if (Number.isInteger(parsed) && parsed > 0) {
+      return parsed;
+    }
+  }
+  return 1952;
+}
