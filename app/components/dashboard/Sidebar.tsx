@@ -27,6 +27,7 @@ import { useState } from "react";
 import { useDashboard } from "./DashboardProvider";
 import { useMobileNav } from "./DashboardLayout";
 import PitchSideMark from "./PitchSideMark";
+import { contractsConfigured } from "../../lib/contract";
 
 type NavItem = {
   label: string;
@@ -134,6 +135,7 @@ export default function Sidebar() {
     signals,
     walletAddress,
     walletBalanceUsdc,
+    busy,
     connectWallet,
     claimDemoUsdc,
   } = useDashboard();
@@ -217,17 +219,18 @@ export default function Sidebar() {
             {connected
               ? walletBalanceUsdc !== undefined
                 ? `Balance ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(walletBalanceUsdc)} · use demo stake credits for judge walkthroughs.`
-                : "Use the OKX faucet for testnet OKB before publishing."
+                : "Claim demo stake credits after funding testnet OKB for gas."
               : "Stake X Cup calls and earn forecast reputation on X Layer."}
           </p>
           <button
             type="button"
             onClick={connected ? claimDemoUsdc : connectWallet}
+            disabled={busy.claim}
             className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-xs font-semibold text-accent-foreground hover:bg-accent-strong"
           >
             {connected ? (
               <>
-                Open faucet
+                {busy.claim ? "Claiming..." : contractsConfigured ? "Claim stake" : "Open faucet"}
                 <ExternalLink className="size-3" strokeWidth={2} />
               </>
             ) : (

@@ -16,6 +16,7 @@ import {
 } from "../../lib/seed";
 import { calculateScore, settleAgent } from "../../lib/reputation";
 import {
+  claimStakeTokenOnchain,
   ensureXLayerNetwork,
   fetchAgentScan,
   fetchChainState,
@@ -324,10 +325,24 @@ export default function DashboardProvider({
   }, [refreshOnchainState]);
 
   const claimDemoUsdc = useCallback(async () => {
-    if (typeof window !== "undefined") {
+    if (!contractsConfigured || !walletAddress) {
       window.open(faucetUrl, "_blank", "noopener,noreferrer");
+      return;
     }
-  }, []);
+
+    setClaimBusy(true);
+    setWalletError(undefined);
+    try {
+      const txHash = await claimStakeTokenOnchain(walletAddress);
+      setLastOnchainTx(txHash);
+      await waitForOnchainTx(txHash);
+      await refreshOnchainState(walletAddress);
+    } catch (error) {
+      setWalletError(`${normalizeError(error)} If the transaction cannot start, claim testnet OKB first.`);
+    } finally {
+      setClaimBusy(false);
+    }
+  }, [walletAddress, refreshOnchainState]);
 
   const runAgentCycle = useCallback(async () => {
     setScanBusy(true);

@@ -10,7 +10,7 @@
     "lint": "eslint app scripts tests --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "node --test --import tsx \"tests/**/*.test.ts\"",
-    "compile:contracts": "solcjs --optimize --optimize-runs 200 --bin --abi -o build/contracts contracts/PitchSideSignals.sol",
+    "compile:contracts": "solcjs --optimize --optimize-runs 200 --bin --abi -o build/contracts contracts/PitchSideSignals.sol contracts/DemoStakeToken.sol",
     "deploy:demo": "tsx scripts/deploy-demo.ts",
     "deploy:pitchside": "tsx scripts/deploy-pitchside.ts",
     "seed:demo-signals": "tsx scripts/seed-demo-signals.ts"

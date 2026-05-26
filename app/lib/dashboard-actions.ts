@@ -167,6 +167,34 @@ export async function resolveSignalOnchain(
   });
 }
 
+export async function claimStakeTokenOnchain(account: Address): Promise<Hex> {
+  if (!window.ethereum) {
+    throw new Error("No injected wallet found.");
+  }
+
+  if (!demoUsdcAddress) {
+    throw new Error("Stake token address is not configured.");
+  }
+
+  await ensureXLayerNetwork();
+
+  const walletClient = createWalletClient({
+    account,
+    chain: xLayerChain,
+    transport: custom(window.ethereum),
+  });
+
+  return withWalletTimeout(
+    walletClient.writeContract({
+      address: demoUsdcAddress,
+      abi: erc20Abi,
+      functionName: "claim",
+      args: [],
+    }),
+    "Stake-token claim signature",
+  );
+}
+
 async function readUsdcAllowance(
   owner: Address,
   spender: Address,

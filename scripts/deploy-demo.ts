@@ -4,14 +4,10 @@ import { privateKeyToAccount } from "viem/accounts";
 import { xLayerChain } from "../app/lib/contract";
 
 const privateKey = process.env.DEPLOYER_PRIVATE_KEY as Hex | undefined;
-const stakeToken = process.env.STAKE_TOKEN_ADDRESS as Address | undefined;
+let stakeToken = process.env.STAKE_TOKEN_ADDRESS as Address | undefined;
 
 if (!privateKey) {
   throw new Error("Set DEPLOYER_PRIVATE_KEY to deploy PitchSide Signals on X Layer.");
-}
-
-if (!stakeToken) {
-  throw new Error("Set STAKE_TOKEN_ADDRESS to the X Layer test token used for signal staking.");
 }
 
 const account = privateKeyToAccount(privateKey);
@@ -31,8 +27,26 @@ const signalBondAbi = parseAbi(["constructor(address stakeToken_, address resolv
 const signalBondBytecode = readBytecode(
   "build/contracts/contracts_PitchSideSignals_sol_PitchSideSignals.bin",
 );
+const demoStakeAbi = parseAbi(["constructor()"]);
+const demoStakeBytecode = readBytecode(
+  "build/contracts/contracts_DemoStakeToken_sol_DemoStakeToken.bin",
+);
 
 console.log(`Deploying from ${account.address} on ${xLayerChain.name} (${xLayerChain.id})`);
+if (!stakeToken) {
+  console.log("  stakeToken = deploying DemoStakeToken");
+  const stakeTokenHash = await walletClient.deployContract({
+    abi: demoStakeAbi,
+    bytecode: demoStakeBytecode,
+    args: [],
+  });
+  console.log(`DemoStakeToken tx: ${stakeTokenHash}`);
+  const stakeTokenReceipt = await publicClient.waitForTransactionReceipt({ hash: stakeTokenHash });
+  if (!stakeTokenReceipt.contractAddress) {
+    throw new Error("DemoStakeToken deployment did not return a contract address.");
+  }
+  stakeToken = stakeTokenReceipt.contractAddress;
+}
 console.log(`  stakeToken = ${stakeToken}`);
 console.log(`  resolver   = ${resolver}`);
 

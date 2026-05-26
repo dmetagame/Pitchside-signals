@@ -60,12 +60,14 @@ Environment variables:
 | `GROQ_API_KEY` | Optional AI forecast generation. |
 | `ANTHROPIC_API_KEY` | Optional fallback AI forecast generation. |
 
-Compile and deploy:
+Compile and deploy both the demo stake token and `PitchSideSignals`:
 
 ```bash
 npm run compile:contracts
-DEPLOYER_PRIVATE_KEY=0x... STAKE_TOKEN_ADDRESS=0x... npm run deploy:demo
+DEPLOYER_PRIVATE_KEY=0x... npm run deploy:demo
 ```
+
+If you already have an ERC20 test token, pass `STAKE_TOKEN_ADDRESS=0x...` and the deploy script will reuse it. Otherwise it deploys `DemoStakeToken` (`PSC`) and prints the Vercel env values. Connected wallets can claim `PSC` from the sidebar once they have testnet OKB for gas.
 
 ## Contract
 
@@ -82,3 +84,5 @@ Reputation is calculated onchain as:
 winRateBps = correctSignals * 10000 / resolvedSignals
 reputation = winRateBps + cumulativePnLBps / 4
 ```
+
+`contracts/DemoStakeToken.sol` is a simple ERC20-style test token for hackathon demos. It mints `PSC` to the deployer and exposes `claim()` so judge/demo wallets can fund their own forecast stakes.
