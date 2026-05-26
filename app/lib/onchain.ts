@@ -19,8 +19,8 @@ import {
 import { getWalletPublicClient, hasInjectedWallet } from "./wallet-provider";
 
 const MAX_SIGNALS_TO_READ = 40;
-const LOG_LOOKBACK_BLOCKS = 250_000n;
-const LOG_CHUNK_BLOCKS = 9_999n;
+const LOG_LOOKBACK_BLOCKS = 2_000n;
+const LOG_CHUNK_BLOCKS = 99n;
 const TX_CONFIRMATION_TIMEOUT_MS = 45_000;
 
 const signalCreatedEvent = parseAbiItem(
@@ -354,19 +354,23 @@ async function readSignalCreatedLogs(
     const chunkFromBlock =
       chunkToBlock > LOG_CHUNK_BLOCKS ? chunkToBlock - LOG_CHUNK_BLOCKS : 0n;
     const boundedFromBlock = chunkFromBlock < fromBlock ? fromBlock : chunkFromBlock;
-    const chunk = await publicClient.getLogs({
-      address: bondAddress,
-      event: signalCreatedEvent,
-      fromBlock: boundedFromBlock,
-      toBlock: chunkToBlock,
-    });
-    logs.push(...chunk);
+    try {
+      const chunk = await publicClient.getLogs({
+        address: bondAddress,
+        event: signalCreatedEvent,
+        fromBlock: boundedFromBlock,
+        toBlock: chunkToBlock,
+      });
+      logs.push(...chunk);
 
-    for (const log of chunk) {
-      const signalId = log.args.signalId;
-      if (signalId !== undefined) {
-        requiredIds.delete(Number(signalId));
+      for (const log of chunk) {
+        const signalId = log.args.signalId;
+        if (signalId !== undefined) {
+          requiredIds.delete(Number(signalId));
+        }
       }
+    } catch {
+      break;
     }
     if (requiredIds.size === 0 || boundedFromBlock === 0n) {
       break;
@@ -406,19 +410,23 @@ async function readSignalResolvedLogs(
     const chunkFromBlock =
       chunkToBlock > LOG_CHUNK_BLOCKS ? chunkToBlock - LOG_CHUNK_BLOCKS : 0n;
     const boundedFromBlock = chunkFromBlock < fromBlock ? fromBlock : chunkFromBlock;
-    const chunk = await publicClient.getLogs({
-      address: bondAddress,
-      event: signalResolvedEvent,
-      fromBlock: boundedFromBlock,
-      toBlock: chunkToBlock,
-    });
-    logs.push(...chunk);
+    try {
+      const chunk = await publicClient.getLogs({
+        address: bondAddress,
+        event: signalResolvedEvent,
+        fromBlock: boundedFromBlock,
+        toBlock: chunkToBlock,
+      });
+      logs.push(...chunk);
 
-    for (const log of chunk) {
-      const signalId = log.args.signalId;
-      if (signalId !== undefined) {
-        pendingIds.delete(Number(signalId));
+      for (const log of chunk) {
+        const signalId = log.args.signalId;
+        if (signalId !== undefined) {
+          pendingIds.delete(Number(signalId));
+        }
       }
+    } catch {
+      break;
     }
     if (pendingIds.size === 0 || boundedFromBlock === 0n) {
       break;
