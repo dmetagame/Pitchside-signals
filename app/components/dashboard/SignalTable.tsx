@@ -165,7 +165,7 @@ export default function SignalTable({
                     <div className="font-medium text-text">{signal.market}</div>
                     <div className="mt-0.5 inline-flex items-center gap-1 rounded-md border border-line-soft bg-panel-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-faint">
                       <span className="size-1 rounded-full bg-accent/70" />
-                      {signal.venue}
+                      X Layer settlement
                     </div>
                   </td>
                   <td className="border-t border-line-soft px-3 py-3">
