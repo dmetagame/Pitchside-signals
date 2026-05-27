@@ -68,7 +68,7 @@ export default function MarketsPage() {
 
         {consensuses.length === 0 ? (
           <div className="rounded-xl border border-dashed border-line-soft bg-panel-muted/40 px-3 py-12 text-center text-sm text-faint">
-            No published signals yet. Run a forecast to populate the consensus board.
+            No published signals yet — the first call is still on the touchline.
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

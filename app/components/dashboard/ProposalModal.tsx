@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowRight, CheckCircle2, Coins, Loader2, Sparkles, X } from "lucide-react";
+import { ArrowRight, CheckCircle2, Coins, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useDashboard, type PublishStage } from "./DashboardProvider";
+import FootballSpinner from "./FootballSpinner";
 import { shortHash } from "../../lib/dashboard-actions";
 
 const stageLabel: Record<PublishStage, string> = {
@@ -229,7 +230,7 @@ export default function ProposalModal() {
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-3 py-2 text-xs font-semibold text-accent-foreground hover:bg-accent-strong disabled:opacity-60"
             >
               {publishing ? (
-                <Loader2 className="size-3.5 animate-spin" strokeWidth={2.5} />
+                <FootballSpinner className="size-3.5" />
               ) : (
                 <CheckCircle2 className="size-3.5" strokeWidth={2.5} />
               )}

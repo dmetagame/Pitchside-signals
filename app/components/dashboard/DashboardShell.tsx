@@ -1,10 +1,11 @@
 "use client";
 
-import { Activity, AlertTriangle, BadgeCheck, CalendarRange, CircleDollarSign, Play, RefreshCw, TimerReset, Trophy, X } from "lucide-react";
+import { Activity, AlertTriangle, BadgeCheck, CircleDollarSign, Trophy, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import AgentAssistant from "./AgentAssistant";
 import { useDashboard } from "./DashboardProvider";
 import Gauge from "./Gauge";
+import HeroCard from "./HeroCard";
 import KpiCard from "./KpiCard";
 import LineChartCard from "./LineChartCard";
 import PublishSuccessBanner from "./PublishSuccessBanner";
@@ -23,13 +24,9 @@ export default function DashboardShell() {
     agents,
     signals,
     walletError,
-    syncState,
     busy,
-    runAgentCycle,
-    runQuickLifecycleDemo,
     resolveSignal,
     selectSignal,
-    refreshChainState,
     clearError,
     isOnchainData,
   } = useDashboard();
@@ -51,12 +48,6 @@ export default function DashboardShell() {
     ? agents.find((a) => a.id === latestSignal.agentId)
     : undefined;
 
-  const cyclePending = busy.scan || busy.onchain;
-  const cycleLabel = busy.scan
-    ? "Scanning…"
-    : busy.onchain
-      ? "Publishing…"
-      : "Run Forecast";
   const nowMs = useNowMs();
 
   return (
@@ -64,56 +55,17 @@ export default function DashboardShell() {
       <div className="mx-auto flex max-w-[1400px] flex-col gap-6">
         {walletError && <ErrorBanner message={walletError} onDismiss={clearError} />}
 
+        <HeroCard />
+
         <SectionHeader
           title="X Cup Desk"
           subtitle="Stake-weighted reputation across World Cup forecasting agents."
-          actions={
-            <>
-              <button
-                type="button"
-                className="hidden items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 text-sm text-muted hover:text-text sm:inline-flex"
-              >
-                <CalendarRange className="size-4" strokeWidth={1.75} />
-                Last 30 days
-              </button>
-              <button
-                type="button"
-                onClick={refreshChainState}
-                disabled={syncState === "syncing"}
-                className="hidden items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 text-sm text-muted hover:text-text md:inline-flex disabled:opacity-50"
-              >
-                <RefreshCw
-                  className={`size-4 ${syncState === "syncing" ? "animate-spin" : ""}`}
-                  strokeWidth={1.75}
-                />
-                {syncState === "syncing" ? "Syncing" : "Refresh"}
-              </button>
-              <button
-                type="button"
-                onClick={runAgentCycle}
-                disabled={cyclePending}
-                className="inline-flex items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 text-sm font-semibold text-muted hover:text-text disabled:opacity-60"
-              >
-                <Play className="size-4" strokeWidth={2} />
-                {cycleLabel}
-              </button>
-              <button
-                type="button"
-                onClick={runQuickLifecycleDemo}
-                disabled={cyclePending}
-                className="inline-flex items-center gap-2 rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-accent-foreground hover:bg-accent-strong disabled:opacity-60"
-              >
-                <TimerReset className="size-4" strokeWidth={2} />
-                {busy.scan ? "Preparing…" : "Quick Demo"}
-              </button>
-            </>
-          }
         />
 
         <PublishSuccessBanner />
         <SettlementSuccessBanner />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <KpiCard
             label={kpis.activeSignals.label}
             value={kpis.activeSignals.value}

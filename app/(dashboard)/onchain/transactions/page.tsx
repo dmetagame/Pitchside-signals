@@ -20,7 +20,7 @@ export default function TransactionsPage() {
       <section className="flex flex-col gap-3 rounded-2xl border border-line bg-panel p-6 shadow-card">
         {!lastOnchainTx && !active && (
           <div className="rounded-xl border border-dashed border-line-soft bg-panel-muted/40 px-3 py-12 text-center text-sm text-faint">
-            No transactions yet this session. Publish a signal to see activity.
+            No transactions yet this session — the first onchain call is still warming up.
           </div>
         )}
 

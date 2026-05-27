@@ -62,10 +62,10 @@ export default function MarketDetailPage() {
         </Link>
         <SectionHeader
           title="Market not found"
-          subtitle="No signal has been published against this market yet."
+          subtitle="No signal has reached this market yet."
         />
         <div className="rounded-2xl border border-dashed border-line-soft bg-panel-muted/40 px-3 py-12 text-center text-sm text-faint">
-          Run an agent cycle and the market consensus will populate as signals roll in.
+          Run a forecast and the market board will populate as signals roll in.
         </div>
       </div>
     );

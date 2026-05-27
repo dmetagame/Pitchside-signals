@@ -50,7 +50,7 @@ export default function WeekdayBars({
           {hasActivity ? peakLabel : "—"}
         </span>
         <span className="text-sm font-semibold text-accent tabular-nums">
-          {hasActivity ? `${peakCount} signal${peakCount === 1 ? "" : "s"}` : "No activity yet"}
+          {hasActivity ? `${peakCount} signal${peakCount === 1 ? "" : "s"}` : "No matchday activity yet"}
         </span>
       </div>
 
@@ -59,6 +59,7 @@ export default function WeekdayBars({
           const heightPct = (bucket.count / maxForScale) * 100;
           const isPeak = bucket.index === peakIndex && hasActivity;
           const isSelected = bucket.index === selectedIndex;
+          const isActive = bucket.count > 0;
           return (
             <button
               key={bucket.index}
@@ -69,20 +70,20 @@ export default function WeekdayBars({
             >
               <div className="relative flex w-full flex-1 items-end justify-center">
                 {(isSelected || isPeak) && bucket.count > 0 && (
-                  <span className="absolute -top-1 -translate-y-full rounded-md bg-text px-1.5 py-0.5 text-[10px] font-semibold text-bg tabular-nums">
-                    {bucket.count}
+                  <span className="absolute -top-1 -translate-y-full whitespace-nowrap rounded-md border border-accent/40 bg-panel-raised px-1.5 py-0.5 text-[10px] font-semibold text-accent tabular-nums shadow-[0_0_12px_rgba(34,226,4,0.22)]">
+                    {bucket.label} · {bucket.count} signal{bucket.count === 1 ? "" : "s"}
                   </span>
                 )}
                 <span
                   className={[
-                    "w-full rounded-md transition-colors group-hover:bg-accent/70",
+                    "w-full rounded-t-md transition-all group-hover:bg-accent/70",
                     isSelected
-                      ? "bg-accent"
+                      ? "bg-accent shadow-[0_0_14px_rgba(34,226,4,0.45)]"
                       : isPeak
-                        ? "bg-accent/70"
-                        : bucket.count > 0
-                          ? "bg-panel-muted"
-                          : "bg-panel-muted/40",
+                        ? "bg-accent/70 shadow-[0_0_10px_rgba(34,226,4,0.3)]"
+                        : isActive
+                          ? "bg-white/[0.06]"
+                          : "bg-white/[0.03]",
                   ].join(" ")}
                   style={{ height: `${Math.max(heightPct, 4)}%` }}
                 />
@@ -117,7 +118,7 @@ export default function WeekdayBars({
         </div>
         <div className="mt-3 h-2 overflow-hidden rounded-full bg-bg">
           <div
-            className="h-full rounded-full bg-accent transition-[width]"
+            className="h-full rounded-full bg-accent shadow-[0_0_10px_rgba(34,226,4,0.4)] transition-[width]"
             style={{ width: `${Math.max(selectedShare, selectedCount > 0 ? 8 : 0)}%` }}
           />
         </div>

@@ -3,18 +3,19 @@
 import { MoreHorizontal } from "lucide-react";
 import {
   Area,
-  AreaChart,
   CartesianGrid,
+  ComposedChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import type { TooltipProps } from "recharts";
+import ChartGlowDefs from "./ChartGlowDefs";
 import DeltaPill from "./DeltaPill";
 import type { PerformancePoint } from "../../lib/performance";
 
-const ACCENT = "#d4ff3e";
+const MINT = "#22E204";
 
 const usd = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -45,7 +46,7 @@ export default function LineChartCard({
   const returnPct = returnBps / 100;
 
   return (
-    <section className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-panel p-6 shadow-card">
+    <section className="flex flex-col gap-4 rounded-2xl border border-line bg-panel p-6 shadow-card">
       <header className="flex items-start justify-between gap-3">
         <div>
           <h2 className="text-base font-semibold text-text">{title}</h2>
@@ -68,25 +69,31 @@ export default function LineChartCard({
       </div>
 
       <div className="flex items-center gap-4 text-xs text-muted">
-        <LegendDot color={ACCENT} label="Realized PnL" />
+        <LegendDot color={MINT} label="Realized PnL" />
         <span className="text-faint">
           {hasData
             ? `${series.length - 1} signal events · ${realizedDeltaUsd >= 0 ? "+" : ""}${usd(realizedDeltaUsd)} over window`
-            : "Not enough signal history yet"}
+            : "Awaiting more settled calls"}
         </span>
       </div>
 
       <div className="mt-2 h-56 w-full">
         {hasData ? (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={series} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+            <ComposedChart data={series} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="perf-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={ACCENT} stopOpacity={0.35} />
-                  <stop offset="100%" stopColor={ACCENT} stopOpacity={0} />
+                  <stop offset="0%" stopColor={MINT} stopOpacity={0.18} />
+                  <stop offset="100%" stopColor={MINT} stopOpacity={0} />
                 </linearGradient>
+                <ChartGlowDefs id="perf-line-glow" />
               </defs>
-              <CartesianGrid stroke="currentColor" strokeOpacity={0.08} vertical={false} />
+              <CartesianGrid
+                stroke="currentColor"
+                strokeOpacity={0.06}
+                vertical={false}
+                strokeDasharray="3 6"
+              />
               <XAxis
                 dataKey="date"
                 tickFormatter={formatDate}
@@ -104,20 +111,31 @@ export default function LineChartCard({
                 width={48}
                 tickFormatter={(v: number) => usd(v)}
               />
-              <Tooltip content={<PerfTooltip />} cursor={{ stroke: ACCENT, strokeOpacity: 0.3 }} />
+              <Tooltip
+                content={<PerfTooltip />}
+                cursor={{ stroke: MINT, strokeOpacity: 0.4, strokeDasharray: "3 4" }}
+              />
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke={ACCENT}
+                stroke={MINT}
                 strokeWidth={2.5}
                 fill="url(#perf-grad)"
                 isAnimationActive={false}
+                filter="url(#perf-line-glow)"
+                activeDot={{
+                  r: 4,
+                  stroke: MINT,
+                  strokeWidth: 2,
+                  fill: "var(--panel-bg)",
+                  filter: "url(#perf-line-glow)",
+                }}
               />
-            </AreaChart>
+            </ComposedChart>
           </ResponsiveContainer>
         ) : (
           <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-line-soft bg-panel-muted/40 text-xs text-faint">
-            Resolve at least 2 signals to populate this chart
+            Not enough signals settled yet — the whistle hasn&apos;t blown.
           </div>
         )}
       </div>
@@ -128,7 +146,10 @@ export default function LineChartCard({
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 text-xs text-muted">
-      <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
+      <span
+        className="size-2 rounded-full"
+        style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}` }}
+      />
       {label}
     </span>
   );
@@ -141,7 +162,7 @@ function PerfTooltip({ active, payload }: TooltipProps<number, string>) {
   const value = typeof point.value === "number" ? point.value : 0;
 
   return (
-    <div className="rounded-lg border border-line bg-panel px-3 py-2 text-xs shadow-card">
+    <div className="rounded-lg border border-accent/40 bg-panel-raised px-3 py-2 text-xs shadow-[0_0_18px_rgba(34,226,4,0.22)]">
       {date && (
         <div className="text-[10px] uppercase tracking-wider text-faint">
           {formatDate(date)}

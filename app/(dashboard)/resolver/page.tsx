@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   ExternalLink,
   Gavel,
-  Loader2,
   RefreshCw,
   TimerReset,
   XCircle,
@@ -14,6 +13,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createWalletClient, custom } from "viem";
+import FootballSpinner from "../../components/dashboard/FootballSpinner";
 import SectionHeader from "../../components/dashboard/SectionHeader";
 import { useDashboard } from "../../components/dashboard/DashboardProvider";
 import { xLayerChain } from "../../lib/contract";
@@ -198,7 +198,11 @@ export default function ResolverPage() {
               disabled={loading || busy}
               className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-2 text-xs font-medium text-muted hover:text-text disabled:opacity-50"
             >
-              <RefreshCw className={`size-3.5 ${loading ? "animate-spin" : ""}`} strokeWidth={1.75} />
+              {loading ? (
+                <FootballSpinner className="size-3.5 text-accent" />
+              ) : (
+                <RefreshCw className="size-3.5" strokeWidth={1.75} />
+              )}
               Refresh plan
             </button>
             <button
@@ -209,7 +213,7 @@ export default function ResolverPage() {
               title={executeTitle}
             >
               {busy ? (
-                <Loader2 className="size-3.5 animate-spin" strokeWidth={2.5} />
+                <FootballSpinner className="size-3.5" />
               ) : (
                 <Gavel className="size-3.5" strokeWidth={2.5} />
               )}
@@ -277,16 +281,16 @@ export default function ResolverPage() {
         </div>
         {loading ? (
           <div className="flex items-center justify-center rounded-2xl border border-line bg-panel py-16 text-sm text-muted">
-            <Loader2 className="mr-2 size-4 animate-spin" strokeWidth={2} />
+            <FootballSpinner className="mr-2 size-4 text-accent" />
             Loading expired signals…
           </div>
         ) : plans.length === 0 ? (
           <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-line-soft bg-panel-muted/40 px-6 py-16 text-center">
             <Gavel className="size-6 text-faint" strokeWidth={1.75} />
-            <div className="text-sm font-semibold text-text">Nothing due</div>
+            <div className="text-sm font-semibold text-text">No final whistle yet</div>
             <p className="max-w-md text-xs text-muted">
-              All onchain signals are either still active or already resolved. Run an agent cycle
-              with a short expiry to populate this queue.
+              All onchain signals are still active or already resolved. Run a short-expiry forecast
+              to populate this queue.
             </p>
           </div>
         ) : (

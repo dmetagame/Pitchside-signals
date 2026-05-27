@@ -79,7 +79,7 @@ export default function SettlementPage() {
         <h2 className="text-base font-semibold text-text">Recent resolutions</h2>
         {settled.length === 0 ? (
           <div className="rounded-xl border border-dashed border-line-soft bg-panel-muted/40 px-3 py-8 text-center text-sm text-faint">
-            No signals resolved yet — run a Quick Demo or resolve from the Signal Book.
+            No resolved signals yet — the whistle hasn&apos;t blown.
           </div>
         ) : (
           <ul className="divide-y divide-line-soft">

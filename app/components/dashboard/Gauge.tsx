@@ -1,27 +1,29 @@
 import { ArrowRight, MoreHorizontal } from "lucide-react";
+import ChartGlowDefs from "./ChartGlowDefs";
 
 const SIZE = 220;
+const HEIGHT = 178;
 const STROKE = 18;
 const CENTER = SIZE / 2;
 const RADIUS = CENTER - STROKE / 2;
-
-const ACCENT = "#d4ff3e";
+const START_ANGLE = (3 * Math.PI) / 4;
+const ARC_ANGLE = (3 * Math.PI) / 2;
 
 function arcPath(percent: number): string {
   const clamped = Math.min(Math.max(percent, 0), 100) / 100;
   if (clamped <= 0) return "";
-  const startAngle = Math.PI;
-  const endAngle = startAngle + clamped * Math.PI;
-  const x1 = CENTER + RADIUS * Math.cos(startAngle);
-  const y1 = CENTER + RADIUS * Math.sin(startAngle);
+  const endAngle = START_ANGLE + clamped * ARC_ANGLE;
+  const x1 = CENTER + RADIUS * Math.cos(START_ANGLE);
+  const y1 = CENTER + RADIUS * Math.sin(START_ANGLE);
   const x2 = CENTER + RADIUS * Math.cos(endAngle);
   const y2 = CENTER + RADIUS * Math.sin(endAngle);
-  return `M ${x1} ${y1} A ${RADIUS} ${RADIUS} 0 0 1 ${x2} ${y2}`;
+  const largeArc = clamped * ARC_ANGLE > Math.PI ? 1 : 0;
+  return `M ${x1} ${y1} A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${x2} ${y2}`;
 }
 
 function pointOnGaugeCurve(percent: number): { x: number; y: number } {
   const clamped = Math.min(Math.max(percent, 0), 100) / 100;
-  const angle = Math.PI + clamped * Math.PI;
+  const angle = START_ANGLE + clamped * ARC_ANGLE;
   return {
     x: CENTER + RADIUS * Math.cos(angle),
     y: CENTER + RADIUS * Math.sin(angle),
@@ -63,28 +65,39 @@ export default function Gauge({
         </button>
       </header>
 
-      <div className="relative mx-auto" style={{ width: SIZE, height: SIZE / 2 + 24 }}>
+      <div className="relative mx-auto" style={{ width: SIZE, height: HEIGHT }}>
         <svg
-          viewBox={`0 0 ${SIZE} ${SIZE / 2 + 16}`}
+          viewBox={`0 0 ${SIZE} ${HEIGHT}`}
           width={SIZE}
-          height={SIZE / 2 + 16}
+          height={HEIGHT}
           aria-hidden
         >
+          <defs>
+            <linearGradient id="gauge-mint" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#22E204" />
+              <stop offset="100%" stopColor="#3DDFFF" />
+            </linearGradient>
+            <ChartGlowDefs id="gauge-glow" />
+          </defs>
+
+          {/* Track */}
           <path
             d={arcPath(100)}
             fill="none"
             stroke="currentColor"
-            strokeOpacity={0.12}
+            strokeOpacity={0.08}
             strokeWidth={STROKE}
             strokeLinecap="round"
           />
+          {/* Filled arc */}
           {percent > 0 && (
             <path
               d={arcPath(percent)}
               fill="none"
-              stroke={ACCENT}
+              stroke="url(#gauge-mint)"
               strokeWidth={STROKE}
               strokeLinecap="round"
+              filter="url(#gauge-glow)"
             />
           )}
           {targetPoint && (
@@ -111,7 +124,7 @@ export default function Gauge({
           )}
         </svg>
 
-        <div className="absolute inset-x-0 bottom-1 flex flex-col items-center">
+        <div className="absolute inset-x-0 bottom-8 flex flex-col items-center">
           <span className="text-3xl font-semibold tracking-tight text-text tabular-nums">
             {percent.toFixed(0)}%
           </span>
@@ -122,12 +135,12 @@ export default function Gauge({
       </div>
 
       <div className="flex items-center justify-between">
-        <span className={`text-xs ${status?.startsWith("Above") ? "text-success" : "text-muted"}`}>
+        <span className={`text-xs ${status?.startsWith("Above") ? "text-accent" : "text-muted"}`}>
           {status ?? "No target set"}
         </span>
         <a
           href="#"
-          className="inline-flex items-center gap-1 text-xs font-semibold text-text hover:text-accent"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-strong"
         >
           Show details
           <ArrowRight className="size-3" strokeWidth={2} />

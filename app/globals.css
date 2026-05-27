@@ -3,54 +3,94 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-bg: #f1f3f5;
-  --color-bg-elevated: #ffffff;
-  --color-panel: #ffffff;
-  --color-panel-muted: #f7f8fa;
-  --color-line: #e6e9ed;
-  --color-line-soft: #eef0f3;
-  --color-text: #0b0f12;
-  --color-muted: #5a6470;
-  --color-faint: #8a93a0;
-  --color-accent: #d4ff3e;
-  --color-accent-strong: #c6f02d;
-  --color-accent-soft: rgba(212, 255, 62, 0.22);
-  --color-accent-foreground: #0a0d08;
-  --color-success: #16a34a;
-  --color-success-soft: rgba(22, 163, 74, 0.12);
-  --color-danger: #dc2626;
-  --color-danger-soft: rgba(220, 38, 38, 0.10);
+  --color-pitch-1: var(--pitch-green-1);
+  --color-pitch-2: var(--pitch-green-2);
+  --color-pitch-glow: var(--pitch-glow);
+
+  --color-bg: var(--panel-bg);
+  --color-bg-elevated: var(--panel-bg-alt);
+  --color-panel: var(--panel-bg);
+  --color-panel-muted: var(--panel-bg-alt);
+  --color-panel-raised: var(--panel-bg-raised);
+
+  --color-line: var(--panel-border);
+  --color-line-soft: rgba(34, 226, 4, 0.04);
+  --color-line-strong: rgba(34, 226, 4, 0.18);
+
+  --color-text: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+
+  --color-accent: var(--pitch-glow);
+  --color-accent-strong: #30ff10;
+  --color-accent-soft: rgba(34, 226, 4, 0.16);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-success: var(--positive);
+  --color-success-soft: rgba(34, 226, 4, 0.14);
+  --color-danger: var(--negative);
+  --color-danger-soft: rgba(255, 94, 94, 0.14);
+
+  --color-chart-mint: var(--chart-mint);
+  --color-chart-teal: var(--chart-teal);
+  --color-chart-magenta: var(--chart-magenta);
+  --color-chart-pink: var(--chart-pink);
+  --color-chart-gold: var(--chart-gold);
 
   --radius-card: 1rem;
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 24px rgba(34, 226, 4, 0.25);
+  --shadow-glow-strong: 0 0 32px rgba(34, 226, 4, 0.45);
 
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .dark {
-  --color-bg: #070807;
-  --color-bg-elevated: #0d0f0e;
-  --color-panel: #0d0f0e;
-  --color-panel-muted: #121514;
-  --color-line: #242924;
-  --color-line-soft: #1a1f1b;
-  --color-text: #f5f7f2;
-  --color-muted: #a5aca3;
-  --color-faint: #697166;
-  --color-accent: #d4ff3e;
-  --color-accent-strong: #c6f02d;
-  --color-accent-soft: rgba(212, 255, 62, 0.16);
-  --color-accent-foreground: #0a0d08;
-  --color-success: #d4ff3e;
-  --color-success-soft: rgba(212, 255, 62, 0.14);
-  --color-danger: #ff6370;
-  --color-danger-soft: rgba(255, 99, 112, 0.12);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 36px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+  --color-bg: var(--panel-bg);
+  --color-bg-elevated: var(--panel-bg-alt);
+  --color-panel: var(--panel-bg);
+  --color-panel-muted: var(--panel-bg-alt);
+  --color-panel-raised: var(--panel-bg-raised);
+  --color-line: var(--panel-border);
+  --color-line-soft: rgba(34, 226, 4, 0.04);
+  --color-line-strong: rgba(34, 226, 4, 0.18);
+  --color-text: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--pitch-glow);
+  --color-accent-strong: #30ff10;
+  --color-accent-soft: rgba(34, 226, 4, 0.16);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--positive);
+  --color-success-soft: rgba(34, 226, 4, 0.14);
+  --color-danger: var(--negative);
+  --color-danger-soft: rgba(255, 94, 94, 0.14);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.45), 0 18px 48px rgba(0, 0, 0, 0.55);
 }
 
 :root {
   --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pitch-green-1: #1E7F3F;
+  --pitch-green-2: #2AB85A;
+  --pitch-glow: #22E204;
+  --panel-bg: #0A1410;
+  --panel-bg-alt: #0F1B15;
+  --panel-bg-raised: #122019;
+  --panel-border: rgba(34, 226, 4, 0.08);
+  --text-primary: #E8F0EA;
+  --text-muted: #8A968F;
+  --text-faint: #5A6660;
+  --text-accent: var(--pitch-glow);
+  --chart-mint: var(--pitch-glow);
+  --chart-teal: #3DDFFF;
+  --chart-magenta: #FF3D88;
+  --chart-pink: #FF6EBE;
+  --chart-gold: #FFD93D;
+  --positive: var(--pitch-glow);
+  --negative: #FF5E5E;
+  --accent-foreground: #06170D;
 }
 
 * {
@@ -64,9 +104,14 @@ body {
 
 body {
   margin: 0;
-  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--sans);
+  background-color: #061008;
+  background-image:
+    radial-gradient(60% 50% at 8% 6%, rgba(34, 226, 4, 0.24), transparent 60%),
+    radial-gradient(55% 45% at 92% 96%, rgba(34, 226, 4, 0.18), transparent 60%),
+    radial-gradient(120% 90% at 50% 50%, var(--panel-bg) 30%, var(--pitch-green-1) 100%);
+  background-attachment: fixed;
 }
 
 button,
@@ -80,3 +125,22 @@ button {
   color: inherit;
 }
 
+/* Reusable mint glow utility for chart elements and active controls. */
+.glow-mint {
+  filter: drop-shadow(0 0 6px rgba(34, 226, 4, 0.55));
+}
+
+/* Subtle stadium texture: faint horizontal pitch lines plus dot speckle. */
+.stadium-texture {
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 79px,
+      rgba(34, 226, 4, 0.035) 79px,
+      rgba(34, 226, 4, 0.035) 80px
+    ),
+    radial-gradient(rgba(232, 240, 234, 0.05) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
+  background-position: 0 0, 0 0;
+}

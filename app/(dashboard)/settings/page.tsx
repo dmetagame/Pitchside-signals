@@ -10,6 +10,7 @@ import {
   Wallet,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import FootballSpinner from "../../components/dashboard/FootballSpinner";
 import ThemeToggle from "../../components/dashboard/ThemeToggle";
 import { useDashboard } from "../../components/dashboard/DashboardProvider";
 import SectionHeader from "../../components/dashboard/SectionHeader";
@@ -93,10 +94,11 @@ export default function SettingsPage() {
                 disabled={syncState === "syncing"}
                 className="inline-flex items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 text-sm font-semibold text-muted hover:text-text disabled:opacity-60"
               >
-                <RefreshCw
-                  className={`size-4 ${syncState === "syncing" ? "animate-spin" : ""}`}
-                  strokeWidth={1.75}
-                />
+                {syncState === "syncing" ? (
+                  <FootballSpinner className="size-4 text-accent" />
+                ) : (
+                  <RefreshCw className="size-4" strokeWidth={1.75} />
+                )}
                 Refresh state
               </button>
             </div>
