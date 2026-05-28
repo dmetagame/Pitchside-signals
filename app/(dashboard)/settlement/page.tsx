@@ -62,7 +62,7 @@ export default function SettlementPage() {
         />
         <InfoCard
           icon={<Gavel className="size-4" strokeWidth={1.75} />}
-          label="Slashed reserve"
+          label="PSC reserve"
           value={formatUsdc(slashedStakeUsdc)}
           hint="Losing stakes withdrawable by owner"
         />

@@ -12,7 +12,7 @@ export default function ContractsPage() {
 
   const rows: { label: string; value?: string }[] = [
     { label: "PitchSide contract", value: signalBondAddress },
-    { label: "Stake token", value: usdcAddress },
+    { label: "PSC token", value: usdcAddress },
     { label: "Resolver", value: resolverAddress },
     { label: "Owner", value: ownerAddress },
   ];

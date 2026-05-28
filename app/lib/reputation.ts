@@ -5,13 +5,15 @@ export function formatBps(bps: number): string {
   return `${sign}${(bps / 100).toFixed(2)}%`;
 }
 
-export function formatUsdc(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
-    style: "currency",
-    currency: "USD",
-  }).format(value);
+const stakeCreditFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
+export function formatStakeCredits(value: number): string {
+  return `${stakeCreditFormatter.format(value)} PSC`;
 }
+
+export const formatUsdc = formatStakeCredits;
 
 /**
  * Reputation matches the onchain formula in PitchSideSignals.sol:

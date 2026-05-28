@@ -8,7 +8,7 @@ import { shortHash } from "../../lib/dashboard-actions";
 
 const stageLabel: Record<PublishStage, string> = {
   idle: "Publish to X Layer",
-  approving: "Approving stake token…",
+  approving: "Approving PSC credits…",
   publishing: "Confirm publish in your wallet…",
   confirming: "Awaiting confirmation…",
 };

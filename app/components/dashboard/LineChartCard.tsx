@@ -14,15 +14,9 @@ import type { TooltipProps } from "recharts";
 import ChartGlowDefs from "./ChartGlowDefs";
 import DeltaPill from "./DeltaPill";
 import type { PerformancePoint } from "../../lib/performance";
+import { formatUsdc } from "../../lib/reputation";
 
 const MINT = "#22E204";
-
-const usd = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 const formatDate = (iso: string) => {
   const d = new Date(iso);
@@ -63,7 +57,7 @@ export default function LineChartCard({
 
       <div className="flex flex-wrap items-end gap-3">
         <div className="text-4xl font-semibold tracking-tight text-text tabular-nums">
-          {usd(headlineUsd)}
+          {formatUsdc(headlineUsd)}
         </div>
         <DeltaPill value={returnPct} />
       </div>
@@ -72,7 +66,7 @@ export default function LineChartCard({
         <LegendDot color={MINT} label="Realized PnL" />
         <span className="text-faint">
           {hasData
-            ? `${series.length - 1} signal events · ${realizedDeltaUsd >= 0 ? "+" : ""}${usd(realizedDeltaUsd)} over window`
+            ? `${series.length - 1} signal events · ${realizedDeltaUsd >= 0 ? "+" : ""}${formatUsdc(realizedDeltaUsd)} over window`
             : "Awaiting more settled calls"}
         </span>
       </div>
@@ -109,7 +103,7 @@ export default function LineChartCard({
                 axisLine={false}
                 tick={{ fontSize: 11, fill: "currentColor", opacity: 0.55 }}
                 width={48}
-                tickFormatter={(v: number) => usd(v)}
+                tickFormatter={(v: number) => formatUsdc(v)}
               />
               <Tooltip
                 content={<PerfTooltip />}
@@ -168,7 +162,7 @@ function PerfTooltip({ active, payload }: TooltipProps<number, string>) {
           {formatDate(date)}
         </div>
       )}
-      <div className="font-semibold text-text tabular-nums">{usd(value)}</div>
+      <div className="font-semibold text-text tabular-nums">{formatUsdc(value)}</div>
     </div>
   );
 }

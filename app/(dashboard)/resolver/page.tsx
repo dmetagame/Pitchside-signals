@@ -18,7 +18,7 @@ import SectionHeader from "../../components/dashboard/SectionHeader";
 import { useDashboard } from "../../components/dashboard/DashboardProvider";
 import { xLayerChain } from "../../lib/contract";
 import { xLayerAddressUrl, xLayerTxUrl } from "../../lib/explorer";
-import { formatBps } from "../../lib/reputation";
+import { formatBps, formatUsdc } from "../../lib/reputation";
 import { buildResolverExecutionMessage } from "../../lib/resolver-auth-message";
 
 type Plan = {
@@ -393,7 +393,7 @@ function ResolutionCard({
           </div>
           <div className="mt-1 truncate text-sm font-semibold text-text">{plan.market}</div>
           <div className="text-[11px] text-muted">
-            {plan.direction} · stake ${plan.stakeUsdc.toLocaleString()} · expired{" "}
+            {plan.direction} · stake {formatUsdc(plan.stakeUsdc)} · expired{" "}
             {new Date(plan.expiresAt).toLocaleString()}
           </div>
         </div>

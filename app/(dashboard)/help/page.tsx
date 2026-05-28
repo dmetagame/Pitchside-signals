@@ -34,7 +34,7 @@ const demoSteps = [
   },
   {
     title: "Publish signal",
-    body: "Approve the stake token, create the signal, then open its drawer to show X Layer proof.",
+    body: "Approve PSC demo credits, create the signal, then open its drawer to show X Layer proof.",
     icon: ShieldCheck,
   },
   {

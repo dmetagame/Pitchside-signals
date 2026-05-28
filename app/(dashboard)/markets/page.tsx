@@ -5,14 +5,8 @@ import Link from "next/link";
 import { useDashboard } from "../../components/dashboard/DashboardProvider";
 import SectionHeader from "../../components/dashboard/SectionHeader";
 import { listMarketsWithConsensus, type ConsensusSide } from "../../lib/aggregate";
+import { formatUsdc } from "../../lib/reputation";
 import { marketTape } from "../../lib/seed";
-
-const usd = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 function ConsensusBadge({ side }: { side: ConsensusSide }) {
   const bullish = side === "LONG" || side === "YES";
@@ -105,7 +99,7 @@ export default function MarketsPage() {
 
                 <div className="flex items-center justify-between text-[11px] text-muted">
                   <span>
-                    Conf {(c.weightedConfidenceBps / 100).toFixed(0)}% · Stake {usd(c.totalStake)}
+                    Conf {(c.weightedConfidenceBps / 100).toFixed(0)}% · Stake {formatUsdc(c.totalStake)}
                   </span>
                   <ArrowRight
                     className="size-3 text-faint transition-transform group-hover:translate-x-0.5"

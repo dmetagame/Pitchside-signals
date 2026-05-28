@@ -53,9 +53,9 @@ Environment variables:
 | `NEXT_PUBLIC_XLAYER_RPC_URL` | Browser RPC override. |
 | `XLAYER_RPC_URL` | Server/deploy RPC override. |
 | `NEXT_PUBLIC_PITCHSIDE_SIGNALS_ADDRESS` | Deployed `PitchSideSignals` contract. |
-| `NEXT_PUBLIC_STAKE_TOKEN_ADDRESS` | ERC20 stake token used by the demo contract. |
+| `NEXT_PUBLIC_STAKE_TOKEN_ADDRESS` | PSC/ERC20 demo credit stake token used by the contract. |
 | `DEPLOYER_PRIVATE_KEY` | Deployment wallet private key. |
-| `STAKE_TOKEN_ADDRESS` | ERC20 stake token passed to the constructor. |
+| `STAKE_TOKEN_ADDRESS` | Existing PSC/ERC20 stake token passed to the constructor. |
 | `RESOLVER_ADDRESS` | Optional resolver wallet; defaults to deployer. |
 | `RESOLVER_PRIVATE_KEY` | Server-side resolver key for automated settlement execution. |
 | `CRON_SECRET` | Bearer secret required for scheduled resolver execution. |
@@ -64,7 +64,7 @@ Environment variables:
 | `GROQ_API_KEY` | Optional AI forecast generation. |
 | `ANTHROPIC_API_KEY` | Optional fallback AI forecast generation. |
 
-Compile and deploy both the demo stake token and `PitchSideSignals`:
+Compile and deploy both the PSC demo credit token and `PitchSideSignals`:
 
 ```bash
 npm run compile:contracts

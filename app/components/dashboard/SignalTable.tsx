@@ -1,13 +1,7 @@
 import { Gavel, MoreHorizontal } from "lucide-react";
 import type { Agent, Direction, Signal } from "../../lib/types";
+import { formatUsdc } from "../../lib/reputation";
 import AgentAvatar from "./AgentAvatar";
-
-const usd = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
 
 type Status = "Active" | "Won" | "Lost";
 
@@ -190,7 +184,7 @@ export default function SignalTable({
                     </div>
                   </td>
                   <td className="border-t border-line-soft px-3 py-3 text-right font-mono text-sm font-semibold text-text tabular-nums">
-                    {usd(signal.stakeUsdc)}
+                    {formatUsdc(signal.stakeUsdc)}
                   </td>
                   <td className="border-t border-line-soft px-3 py-3 text-right">
                     <StatusPill status={status} />

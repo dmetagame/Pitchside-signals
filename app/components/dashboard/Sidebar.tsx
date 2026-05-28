@@ -28,6 +28,7 @@ import { useDashboard } from "./DashboardProvider";
 import { useMobileNav } from "./DashboardLayout";
 import SidebarNavItem, { type SidebarNavItemModel } from "./SidebarNavItem";
 import { contractsConfigured } from "../../lib/contract";
+import { formatUsdc } from "../../lib/reputation";
 
 function buildPrimaryNav(activeSignalCount: number): SidebarNavItemModel[] {
   return [
@@ -204,8 +205,8 @@ export default function Sidebar() {
                 </div>
                 <p className="text-[11px] leading-relaxed text-muted">
                   {walletBalanceUsdc !== undefined
-                    ? `Balance ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(walletBalanceUsdc)} · claim demo stake credits for judge walkthroughs.`
-                    : "Claim demo stake credits after funding X Layer OKB for gas."}
+                    ? `Balance ${formatUsdc(walletBalanceUsdc)} · claim PSC demo credits for judge walkthroughs.`
+                    : "Claim PSC demo credits after funding X Layer OKB for gas."}
                 </p>
                 <button
                   type="button"

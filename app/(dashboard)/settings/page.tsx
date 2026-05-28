@@ -51,7 +51,7 @@ export default function SettingsPage() {
         <Panel
           icon={<Wallet className="size-4" strokeWidth={1.75} />}
           title="Wallet Session"
-          description="Connection state and X Layer stake balance used for publishing and settlement."
+          description="Connection state and PSC demo credit balance used for publishing and settlement."
         >
           <div className="space-y-3">
             <ValueRow
@@ -65,7 +65,7 @@ export default function SettingsPage() {
               tone={walletOnXLayer ? "success" : walletAddress ? "warning" : "muted"}
             />
             <ValueRow
-              label="Stake balance"
+              label="PSC balance"
               value={walletBalanceUsdc === undefined ? "Not loaded" : formatUsdc(walletBalanceUsdc)}
             />
             <div className="flex flex-wrap gap-2 pt-2">
@@ -137,7 +137,7 @@ export default function SettingsPage() {
           description="Primary addresses for the PitchSide demo deployment."
         >
           <AddressRow label="PitchSide" value={signalBondAddress} />
-          <AddressRow label="Stake token" value={usdcAddress} />
+          <AddressRow label="PSC token" value={usdcAddress} />
           <AddressRow label="Resolver" value={resolverAddress} />
         </Panel>
 
@@ -148,7 +148,7 @@ export default function SettingsPage() {
         >
           <AddressRow label="Owner" value={ownerAddress} />
           <AddressRow label="Treasury" value={treasuryAddress} />
-          <ValueRow label="Slashed reserve" value={formatUsdc(slashedStakeUsdc)} />
+          <ValueRow label="PSC slashed reserve" value={formatUsdc(slashedStakeUsdc)} />
         </Panel>
       </section>
     </div>

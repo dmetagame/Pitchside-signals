@@ -29,7 +29,7 @@ export default function TransactionsPage() {
             <span className="size-2 animate-pulse rounded-full bg-accent" />
             <span className="flex-1">
               {publishStage === "approving"
-                ? "Approving stake token…"
+                ? "Approving PSC credits…"
                 : publishStage === "publishing"
                   ? "Confirm publish in your wallet…"
                   : publishStage === "confirming"

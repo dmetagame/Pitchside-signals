@@ -1,12 +1,6 @@
 import { MoreHorizontal } from "lucide-react";
 import type { AgentCategory, CompositionSegment } from "../../lib/composition";
-
-const usd = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
+import { formatUsdc } from "../../lib/reputation";
 
 const PALETTE: Record<AgentCategory, string> = {
   Match: "#22E204",
@@ -39,7 +33,7 @@ export default function SegmentedBreakdown({
         <div>
           <h2 className="text-base font-semibold text-text">{title}</h2>
           <p className="mt-1 text-xs text-muted">
-            {totalAgents} agent{totalAgents === 1 ? "" : "s"} · {usd(totalStake)} staked
+            {totalAgents} agent{totalAgents === 1 ? "" : "s"} · {formatUsdc(totalStake)} staked
           </p>
         </div>
         <button
@@ -90,7 +84,7 @@ export default function SegmentedBreakdown({
               key={`bar-${segment.category}`}
               style={{ width: `${pct}%`, backgroundColor: color }}
               className="h-full"
-              title={`${segment.category} · ${usd(segment.stake)}`}
+              title={`${segment.category} · ${formatUsdc(segment.stake)}`}
             />
           );
         })}

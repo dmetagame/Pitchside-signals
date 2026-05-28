@@ -148,7 +148,7 @@ export default function SignalDetailDrawer() {
               )}
               {usdcAddress && (
                 <ProofLink
-                  label="Stake token"
+                  label="PSC token"
                   value={shortHash(usdcAddress)}
                   href={xLayerAddressUrl(usdcAddress)}
                 />

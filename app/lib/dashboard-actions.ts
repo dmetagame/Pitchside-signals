@@ -103,7 +103,7 @@ export async function publishSignalOnchain(
         functionName: "approve",
         args: [signalBondAddress, stakeAmount],
       }),
-      "Stake-token approval signature",
+      "PSC approval signature",
     );
     await waitForApproval(
       approveHash,
@@ -173,7 +173,7 @@ export async function claimStakeTokenOnchain(account: Address): Promise<Hex> {
   }
 
   if (!demoUsdcAddress) {
-    throw new Error("Stake token address is not configured.");
+    throw new Error("PSC token address is not configured.");
   }
 
   await ensureXLayerNetwork();
@@ -191,7 +191,7 @@ export async function claimStakeTokenOnchain(account: Address): Promise<Hex> {
       functionName: "claim",
       args: [],
     }),
-    "Stake-token claim signature",
+    "PSC claim signature",
   );
 }
 
@@ -201,7 +201,7 @@ async function readUsdcAllowance(
   publicClient = getBrowserSafePublicClient(),
 ): Promise<bigint> {
   if (!demoUsdcAddress) {
-    throw new Error("Stake token address is not configured.");
+    throw new Error("PSC token address is not configured.");
   }
   return publicClient.readContract({
     address: demoUsdcAddress,
@@ -224,7 +224,7 @@ async function waitForApproval(
       timeout: TX_RECEIPT_TIMEOUT_MS,
     });
     if (receipt.status === "reverted") {
-      throw new Error("Stake-token approval reverted on X Layer.");
+      throw new Error("PSC approval reverted on X Layer.");
     }
     return;
   } catch (error) {
@@ -234,7 +234,7 @@ async function waitForApproval(
     }
 
     const message = normalizeError(error);
-    throw new Error(`Stake-token approval did not finalize. ${message}`);
+    throw new Error(`PSC approval did not finalize. ${message}`);
   }
 }
 
