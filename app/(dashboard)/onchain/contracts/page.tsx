@@ -21,7 +21,7 @@ export default function ContractsPage() {
     <div className="mx-auto flex max-w-[1400px] flex-col gap-6">
       <SectionHeader
         title="Contracts"
-        subtitle="Deployed contract addresses and resolver roles on X Layer testnet."
+        subtitle="Deployed contract addresses and resolver roles on X Layer mainnet."
       />
 
       <section className="flex flex-col gap-3 rounded-2xl border border-line bg-panel p-6 shadow-card">

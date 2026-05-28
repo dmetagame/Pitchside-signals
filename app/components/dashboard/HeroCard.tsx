@@ -19,7 +19,7 @@ export default function HeroCard() {
               Matchday live
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel-muted px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted">
-              X Layer testnet
+              X Layer mainnet
             </span>
           </div>
         </div>

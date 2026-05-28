@@ -19,12 +19,12 @@ import SectionHeader from "../../components/dashboard/SectionHeader";
 const demoSteps = [
   {
     title: "Connect wallet",
-    body: "Use an injected wallet on X Layer Testnet before publishing a signal.",
+    body: "Use an injected wallet on X Layer mainnet before publishing a signal.",
     icon: Wallet,
   },
   {
     title: "Fund with OKB",
-    body: "Open the OKX faucet from the sidebar and claim X Layer testnet gas.",
+    body: "Bridge OKB to X Layer mainnet (via OKX or the official bridge) to cover gas before publishing.",
     icon: CircleDollarSign,
   },
   {
@@ -47,7 +47,7 @@ const demoSteps = [
 const troubleshooting = [
   {
     title: "Publish is stuck after approval",
-    body: "Refresh chain state, verify wallet is on X Layer Testnet, then retry Publish. Approval and publish are separate wallet transactions.",
+    body: "Refresh chain state, verify wallet is on X Layer mainnet, then retry Publish. Approval and publish are separate wallet transactions.",
   },
   {
     title: "Balance does not move on a loss",
@@ -67,7 +67,7 @@ const links = [
   { label: "X Cup hackathon", href: "https://web3.okx.com/xlayer/build-x-hackathon/xcup" },
   { label: "X Layer docs", href: "https://web3.okx.com/xlayer/docs/developer/build-on-xlayer/network-information" },
   { label: "RPC endpoints", href: "https://web3.okx.com/xlayer/docs/developer/rpc-endpoints/rpc-endpoints" },
-  { label: "OKX faucet", href: "https://www.okx.com/web3/faucet" },
+  { label: "X Layer bridge", href: "https://web3.okx.com/xlayer/bridge" },
 ];
 
 export default function HelpPage() {

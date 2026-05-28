@@ -207,7 +207,7 @@ export default function Sidebar() {
                   <span
                     className={`size-1.5 rounded-full ${walletOnXLayer ? "bg-accent" : "bg-danger"}`}
                   />
-                  {walletOnXLayer ? "X Layer testnet" : "Wrong network"}
+                  {walletOnXLayer ? "X Layer" : "Wrong network"}
                 </div>
                 <p className="text-[11px] leading-relaxed text-muted">
                   {walletBalanceUsdc !== undefined

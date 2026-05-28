@@ -1,6 +1,6 @@
 import { defineChain, isAddress, type Address } from "viem";
 
-const publicXLayerRpcUrl = "https://testrpc.xlayer.tech/terigon";
+const publicXLayerRpcUrl = "https://rpc.xlayer.tech";
 const xLayerRpcUrl =
   typeof window === "undefined"
     ? process.env.XLAYER_RPC_URL ??
@@ -8,9 +8,9 @@ const xLayerRpcUrl =
       publicXLayerRpcUrl
     : process.env.NEXT_PUBLIC_XLAYER_RPC_URL ?? publicXLayerRpcUrl;
 
-export const xLayerTestnet = defineChain({
+export const xLayerMainnet = defineChain({
   id: readChainId(),
-  name: "X Layer Testnet",
+  name: "X Layer",
   nativeCurrency: {
     name: "OKB",
     symbol: "OKB",
@@ -24,16 +24,16 @@ export const xLayerTestnet = defineChain({
   blockExplorers: {
     default: {
       name: "OKX Explorer",
-      url: "https://www.okx.com/web3/explorer/xlayer-test",
+      url: "https://www.okx.com/web3/explorer/xlayer",
     },
   },
 });
 
 /**
- * Compatibility alias retained so copied wallet/import boundaries can move to
- * X Layer without a broad rename in this pass.
+ * Compatibility alias retained so existing wallet/import boundaries continue
+ * to resolve without a broad rename.
  */
-export const xLayerChain = xLayerTestnet;
+export const xLayerChain = xLayerMainnet;
 
 export const signalBondAddress =
   readAddress(process.env.NEXT_PUBLIC_PITCHSIDE_SIGNALS_ADDRESS) ??
@@ -41,7 +41,7 @@ export const signalBondAddress =
 
 /**
  * PitchSide uses an ERC20 stake token for demo publishing. Deploy scripts can
- * point this at a simple test token on X Layer testnet; without it the app runs
+ * point this at a simple ERC20 on X Layer mainnet; without it the app runs
  * in seed mode and still demos the market/reputation workflow.
  */
 export const usdcAddress: Address | undefined =
@@ -53,7 +53,7 @@ export const usdcAddress: Address | undefined =
 export const demoUsdcAddress = usdcAddress;
 export const contractsConfigured = Boolean(signalBondAddress && usdcAddress);
 
-export const faucetUrl = "https://www.okx.com/web3/faucet";
+export const faucetUrl = "https://web3.okx.com/xlayer/bridge";
 
 export const signalBondAbi = [
   {
@@ -235,5 +235,5 @@ function readChainId(): number {
       return parsed;
     }
   }
-  return 1952;
+  return 196;
 }

@@ -61,7 +61,7 @@ export default function SettingsPage() {
             />
             <ValueRow
               label="Network"
-              value={walletOnXLayer ? "X Layer Testnet" : walletAddress ? "Switch required" : "No wallet"}
+              value={walletOnXLayer ? "X Layer Mainnet" : walletAddress ? "Switch required" : "No wallet"}
               tone={walletOnXLayer ? "success" : walletAddress ? "warning" : "muted"}
             />
             <ValueRow
