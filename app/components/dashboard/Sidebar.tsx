@@ -212,7 +212,7 @@ export default function Sidebar() {
                 <p className="text-[11px] leading-relaxed text-muted">
                   {walletBalanceUsdc !== undefined
                     ? `Balance ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(walletBalanceUsdc)} · claim demo stake credits for judge walkthroughs.`
-                    : "Claim demo stake credits after funding testnet OKB for gas."}
+                    : "Claim demo stake credits after funding X Layer OKB for gas."}
                 </p>
                 <button
                   type="button"
@@ -220,7 +220,7 @@ export default function Sidebar() {
                   disabled={busy.claim}
                   className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-accent/70 bg-accent/5 px-3 py-2 text-xs font-semibold text-accent shadow-[0_0_18px_rgba(34,226,4,0.22)] hover:bg-accent/10 disabled:opacity-60"
                 >
-                  {busy.claim ? "Claiming..." : contractsConfigured ? "Claim stake" : "Open faucet"}
+                  {busy.claim ? "Claiming..." : contractsConfigured ? "Claim PSC" : "Open bridge"}
                   <ExternalLink className="size-3" strokeWidth={2} />
                 </button>
               </>

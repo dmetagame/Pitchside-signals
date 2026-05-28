@@ -18,8 +18,10 @@ import {
 } from "./contract";
 import { getWalletPublicClient, hasInjectedWallet } from "./wallet-provider";
 
-const MAX_SIGNALS_TO_READ = 40;
-const LOG_LOOKBACK_BLOCKS = 2_000n;
+const MAX_SIGNALS_TO_READ = readPositiveIntegerEnv("PITCHSIDE_MAX_SIGNALS_TO_READ", 100);
+const LOG_LOOKBACK_BLOCKS = BigInt(
+  readPositiveIntegerEnv("PITCHSIDE_LOG_LOOKBACK_BLOCKS", 10_000),
+);
 const LOG_CHUNK_BLOCKS = 99n;
 const TX_CONFIRMATION_TIMEOUT_MS = 45_000;
 
@@ -494,4 +496,12 @@ function readTupleValue<T>(
   index: number,
 ): T {
   return (tuple[key] ?? tuple[index]) as T;
+}
+
+function readPositiveIntegerEnv(name: string, fallback: number): number {
+  const raw = typeof process === "undefined" ? undefined : process.env[name];
+  if (raw === undefined) return fallback;
+
+  const parsed = Number(raw);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }

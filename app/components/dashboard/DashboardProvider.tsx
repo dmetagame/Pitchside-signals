@@ -7,7 +7,7 @@ import type { AgentScan } from "../../lib/agent-scan";
 import {
   xLayerChain,
   contractsConfigured,
-  faucetUrl,
+  bridgeUrl,
 } from "../../lib/contract";
 import { waitForOnchainTx } from "../../lib/onchain";
 import {
@@ -326,7 +326,7 @@ export default function DashboardProvider({
 
   const claimDemoUsdc = useCallback(async () => {
     if (!contractsConfigured || !walletAddress) {
-      window.open(faucetUrl, "_blank", "noopener,noreferrer");
+      window.open(bridgeUrl, "_blank", "noopener,noreferrer");
       return;
     }
 
@@ -338,7 +338,7 @@ export default function DashboardProvider({
       await waitForOnchainTx(txHash);
       await refreshOnchainState(walletAddress);
     } catch (error) {
-      setWalletError(`${normalizeError(error)} If the transaction cannot start, claim testnet OKB first.`);
+      setWalletError(`${normalizeError(error)} If the transaction cannot start, bridge OKB to X Layer first.`);
     } finally {
       setClaimBusy(false);
     }

@@ -17,7 +17,7 @@ import SectionHeader from "../../components/dashboard/SectionHeader";
 import {
   xLayerChain,
   contractsConfigured,
-  faucetUrl,
+  bridgeUrl,
   signalBondAddress,
   usdcAddress,
 } from "../../lib/contract";
@@ -128,7 +128,7 @@ export default function SettingsPage() {
         >
           <ValueRow label="Chain" value={`${xLayerChain.name} (${xLayerChain.id})`} />
           <ValueRow label="Configured" value={contractsConfigured ? "Yes" : "No"} />
-          <ExternalRow label="Faucet" value="OKX faucet" href={faucetUrl} />
+          <ExternalRow label="Bridge" value="X Layer bridge" href={bridgeUrl} />
         </Panel>
 
         <Panel

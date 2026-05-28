@@ -7,7 +7,7 @@ PitchSide Signals lets fans and AI desks publish match, group, bracket, and prop
 ## Hackathon fit
 
 - World Cup/X Cup theme: match outcomes, group winners, bracket paths, props, and fan sentiment.
-- X Layer requirement: `PitchSideSignals.sol` deploys to X Layer testnet/mainnet as a standard EVM contract.
+- X Layer requirement: `PitchSideSignals.sol` deploys to X Layer mainnet as a standard EVM contract.
 - Tracks: prediction markets, AI agents, social/leaderboard, and GameFi-style fan reputation.
 - Demo loop: run forecast -> publish signal -> inspect X Layer proof -> resolve -> watch reputation update.
 
@@ -38,18 +38,18 @@ npm run compile:contracts
 
 ## X Layer
 
-The app defaults to X Layer testnet:
+The app defaults to X Layer mainnet:
 
-- Chain ID: `1952`
-- RPC: `https://testrpc.xlayer.tech/terigon`
-- Explorer: `https://www.okx.com/web3/explorer/xlayer-test`
+- Chain ID: `196`
+- RPC: `https://rpc.xlayer.tech`
+- Explorer: `https://www.okx.com/web3/explorer/xlayer`
 - Native token: `OKB`
 
 Environment variables:
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_XLAYER_CHAIN_ID` | Optional override, defaults to `1952`. |
+| `NEXT_PUBLIC_XLAYER_CHAIN_ID` | Optional override, defaults to `196`. |
 | `NEXT_PUBLIC_XLAYER_RPC_URL` | Browser RPC override. |
 | `XLAYER_RPC_URL` | Server/deploy RPC override. |
 | `NEXT_PUBLIC_PITCHSIDE_SIGNALS_ADDRESS` | Deployed `PitchSideSignals` contract. |
@@ -57,6 +57,10 @@ Environment variables:
 | `DEPLOYER_PRIVATE_KEY` | Deployment wallet private key. |
 | `STAKE_TOKEN_ADDRESS` | ERC20 stake token passed to the constructor. |
 | `RESOLVER_ADDRESS` | Optional resolver wallet; defaults to deployer. |
+| `RESOLVER_PRIVATE_KEY` | Server-side resolver key for automated settlement execution. |
+| `CRON_SECRET` | Bearer secret required for scheduled resolver execution. |
+| `PITCHSIDE_MAX_SIGNALS_TO_READ` | Optional server read cap for recent onchain signals, defaults to `100`. |
+| `PITCHSIDE_LOG_LOOKBACK_BLOCKS` | Optional event-log lookback for tx links, defaults to `10000`. |
 | `GROQ_API_KEY` | Optional AI forecast generation. |
 | `ANTHROPIC_API_KEY` | Optional fallback AI forecast generation. |
 
@@ -67,7 +71,11 @@ npm run compile:contracts
 DEPLOYER_PRIVATE_KEY=0x... npm run deploy:demo
 ```
 
-If you already have an ERC20 test token, pass `STAKE_TOKEN_ADDRESS=0x...` and the deploy script will reuse it. Otherwise it deploys `DemoStakeToken` (`PSC`) and prints the Vercel env values. Connected wallets can claim `PSC` from the sidebar once they have testnet OKB for gas.
+If you already have an ERC20 stake token, pass `STAKE_TOKEN_ADDRESS=0x...` and the deploy script will reuse it. Otherwise it deploys `DemoStakeToken` (`PSC`) and prints the Vercel env values. Connected wallets can claim `PSC` from the sidebar once they have OKB on X Layer for gas.
+
+`DemoStakeToken` is intentionally a hackathon/demo credit, not a production stake asset. It exposes a public `claim()` function so judges can run the full publish/settle loop without acquiring a separate ERC20.
+
+For scheduled resolver execution, set both `RESOLVER_PRIVATE_KEY` and `CRON_SECRET` in the production environment. Without `CRON_SECRET`, `/api/resolve?execute=1` remains disabled for cron/bearer calls; wallet-signed resolver runs can still be initiated from the dashboard by the current contract owner or resolver.
 
 ## Contract
 

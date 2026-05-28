@@ -53,7 +53,7 @@ export const usdcAddress: Address | undefined =
 export const demoUsdcAddress = usdcAddress;
 export const contractsConfigured = Boolean(signalBondAddress && usdcAddress);
 
-export const faucetUrl = "https://web3.okx.com/xlayer/bridge";
+export const bridgeUrl = "https://web3.okx.com/xlayer/bridge";
 
 export const signalBondAbi = [
   {
