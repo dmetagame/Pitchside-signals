@@ -60,7 +60,6 @@ export default function ProposalModal() {
       ? `${agentProposal.agentRuntime} fallback`
       : agentProposal.agentRuntime
     : undefined;
-  const providerStatus = agentProposal.providerStatus;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal>
@@ -160,13 +159,8 @@ export default function ProposalModal() {
 
           {agentProposal.fallback && (
             <div className="rounded-xl border border-accent/30 bg-accent-soft px-3 py-2 text-xs leading-relaxed text-text">
-              Runtime fallback active
-              {agentProposal.fallbackReason ? `: ${agentProposal.fallbackReason}` : "."}
-              {providerStatus
-                ? ` Groq ${providerStatus.groqConfigured ? "configured" : "not configured"}; Anthropic ${
-                    providerStatus.anthropicConfigured ? "configured" : "not configured"
-                  }.`
-                : ""}
+              Forecast engine switched to the built-in match model. The signal remains
+              source-hashed and ready for X Layer publishing.
             </div>
           )}
 

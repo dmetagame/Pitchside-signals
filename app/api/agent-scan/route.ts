@@ -148,12 +148,9 @@ export async function GET(request: Request) {
   }
 
   const signal = generateAgentScan({ sequence: seq, expiresInSeconds });
-  const seedRequested = providerHint === "seed";
   return proposalResponse(
     {
       agentRuntime: "deterministic-scan-v1",
-      fallback: !seedRequested,
-      fallbackReason: seedRequested ? undefined : "no-llm-provider-configured",
       generatedAt: signal.generatedAt,
       provider: "seed",
       providerStatus: providerStatus("seed", rateLimit),
