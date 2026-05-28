@@ -127,18 +127,11 @@ export default function Sidebar() {
           "md:flex md:w-64 lg:w-72",
         ].join(" ")}
       >
-        <div className="flex items-center gap-3 px-2">
-          <div className="flex size-9 items-center justify-center overflow-hidden rounded-lg shadow-[0_0_16px_rgba(34,226,4,0.4)]">
-            <PitchSideLogo size={36} />
-          </div>
-          <div className="flex flex-1 flex-col">
-            <span className="text-[15px] font-semibold uppercase tracking-tight text-text">
-              PitchSide
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.18em] text-faint">
-              X Cup signals
-            </span>
-          </div>
+        <div className="flex items-center gap-2 px-2">
+          <PitchSideLogo size={22} className="text-accent drop-shadow-[0_0_8px_rgba(34,226,4,0.55)]" />
+          <span className="flex-1 truncate text-[20px] font-bold tracking-tight text-text">
+            pitchside
+          </span>
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
