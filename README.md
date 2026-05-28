@@ -77,6 +77,8 @@ If you already have an ERC20 stake token, pass `STAKE_TOKEN_ADDRESS=0x...` and t
 
 For scheduled resolver execution, set both `RESOLVER_PRIVATE_KEY` and `CRON_SECRET` in the production environment. Without `CRON_SECRET`, `/api/resolve?execute=1` remains disabled for cron/bearer calls; wallet-signed resolver runs can still be initiated from the dashboard by the current contract owner or resolver.
 
+The included `vercel.json` registers a daily cron for `/api/resolve`, which Vercel calls with `Authorization: Bearer ${CRON_SECRET}` when the secret is configured. The schedule is daily for Hobby-plan compatibility; Pro projects can tighten it, for example to `*/10 * * * *`, if more frequent settlement sweeps are needed.
+
 ## Contract
 
 `contracts/PitchSideSignals.sol` records:
